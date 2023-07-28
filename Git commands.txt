@@ -1,1 +1,15 @@
-git config - global user.name "OlivierNijman"
+Configure git:
+
+git config --global user.name "OlivierNijman"
+git config --global user.email "olivier.nijman@hotmail.com"
+git config --global core.editor "code"
+
+Show configuration: 
+
+git config --list
+
+Initialize git for a folder:
+git init / or do it through vs code
+
+Status of git or branch:
+git status
