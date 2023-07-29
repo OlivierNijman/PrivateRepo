@@ -58,3 +58,7 @@ Push the local repo unto github repo:
 git push -u origin master
 git push origin --all
 git push origin --tags
+
+Pull all the changes/files from the remote repo:
+git pull origin main
+git pull origin --all
