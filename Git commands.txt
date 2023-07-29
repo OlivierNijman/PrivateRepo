@@ -5,7 +5,6 @@ git config --global user.email "olivier.nijman@hotmail.com"
 git config --global core.editor "code"
 
 Show configuration: 
-
 git config --list
 
 Initialize git for a folder:
