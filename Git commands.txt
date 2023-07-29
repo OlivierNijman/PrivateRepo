@@ -62,3 +62,6 @@ git push origin --tags
 Pull all the changes/files from the remote repo:
 git pull origin main
 git pull origin --all
+
+Get a repository on github onto local machine:
+git clone <github repository url>
