@@ -4,7 +4,10 @@ library(ggplot2)
 library(dplyr)
 library(readr)
 
-# simple function to check theme
+# set working directory
+setwd("F:/Vsc_Git_tryout/R")
+
+# simple function to check theme colours
 sum_2_vars <- function(x, y) {
     z <- x + y                      # nolint: indentation_linter.
     return(z)
