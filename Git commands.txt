@@ -40,4 +40,11 @@ git switch experiment
 git merge experiment
 
 Reset commits to past version:
-git reset --hard hashcode
+git reset --hard <hashcode>
+
+Work from a commit state, not any branch (you can add/commit without impacting branches):
+git checkout <hashcode>
+
+Save these to a branch or discord operations:
+git switch -c <new-branch-name>
+git switch -
