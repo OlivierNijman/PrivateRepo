@@ -56,3 +56,5 @@ git remote add origin <github repository url>
 
 Push the local repo unto github repo: 
 git push -u origin master
+git push origin --all
+git push origin --tags
