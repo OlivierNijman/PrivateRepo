@@ -13,3 +13,28 @@ git init / or do it through vs code
 
 Status of git or branch:
 git status
+
+Files in staging area:
+git ls-Files
+
+Add files to staging area:
+git add file-1.txt file-2.txt
+git add .
+
+Remove files from staging area:
+git rm --cached file-2.txt
+
+commit changes to repository:
+git commit -m "your commit message"
+
+Open a file in vscode: 
+code file-1.txt
+
+View all the commits:
+git log
+git log --oneline
+
+Check/Add/Switch branches:
+git branch
+git branch experiment
+git switch experiment
