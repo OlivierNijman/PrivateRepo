@@ -33,7 +33,11 @@ View all the commits:
 git log
 git log --oneline
 
-Check/Add/Switch branches:
+Check/Add/Switch/Merge branches:
 git branch
 git branch experiment
 git switch experiment
+git merge experiment
+
+Reset commits to past version:
+git reset --hard hashcode
