@@ -48,3 +48,11 @@ git checkout <hashcode>
 Save these to a branch or discord operations:
 git switch -c <new-branch-name>
 git switch -
+
+------- GITHUB RELATED
+Check for remote / Add remote (origin name of remote repo):
+git remote -v
+git remote add origin <github repository url>
+
+Push the local repo unto github repo: 
+git push -u origin master
