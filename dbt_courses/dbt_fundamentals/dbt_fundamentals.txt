@@ -3,3 +3,33 @@ dbt docs and dbt community/slack for info
 # who is analytics engineer
 trad teams: 
 engineers (etl, orchestration, python/java) and analysts (dashboard, reporting, excel/sql)
+
+# etl and elt 
+etl: download data, transform data, load data 
+required additional tools, languages, skills
+enter cloud based data warehouses (combine database and supercomputer for transforming data)
+data can be transformed directly in database, no need to extract and load repeatedly
+
+now elt: extract load transform
+get data in warehouse and then transform as needed
+scalable compute and storage + reduction of transfer time
+
+# Analytics engineer
+owns the transformation of raw data up to the BI layer
+frees up engineer for loading raw data and data infrastructure
+analysts work on delivering dashboards and reporting to stakeholders
+
+# The modern data stack and dbt
+data sources -> loaders -> data platforms (snwflk) also where dbt is -> bi tools/ml models/operational analytics 
+raw data -> develop -> test & document -> deploy -> datasets
+
+# overview of an exemplar project
+DAG = directed acyclic graph
+sources/loaders (green) -> models (dbt, blue) -> dataset (dim/fact/flat, purple)
+dbt run - builds up the dataset from left to right
+source and ref macro/function to refer to the data you build off (yml = yaml)
+tests go in .yml file as well as documentation
+dbt test - test the builded models
+dbt build - run and test models
+dbt docs generate - builds up the document side
+can run on a schedule with jobs - deployment
