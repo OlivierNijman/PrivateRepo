@@ -1,0 +1,5 @@
+dbt docs and dbt community/slack for info
+
+# who is analytics engineer
+trad teams: 
+engineers (etl, orchestration, python/java) and analysts (dashboard, reporting, excel/sql)
