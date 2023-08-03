@@ -2,3 +2,4 @@ dbt run - builds up the dataset from left to right
 dbt test - test the builded models
 dbt build - run and test models
 dbt docs generate - builds up the document side
+dbt run --full-refresh - runs and refreshes the schema
