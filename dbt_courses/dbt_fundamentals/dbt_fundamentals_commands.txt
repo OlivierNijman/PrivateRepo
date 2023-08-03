@@ -1,3 +1,6 @@
+everything can be modified for singular models/all models
+and for the complete lineage or only previous with +
+
 dbt run - builds up the dataset from left to right
 dbt test - test the builded models
 dbt build - run and test models

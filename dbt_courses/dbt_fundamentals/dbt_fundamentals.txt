@@ -38,3 +38,7 @@ demos use snowflake and git
 dbt is going to be the transformation interface between the code we write (stored/managed in a git repo) 
     and the sample data we have to work with (stored and transformed in your data platform (snwflk)).
 
+https://docs.getdbt.com/quickstarts/snowflake?step=1
+^ has info on how to set up dbt cloud and snowflake connection
+dbt models/tests/sources/schema (.yml and sql files) and snowflake warehouses/database/schema
+also for setting op developer and deployment jobs etc. 
