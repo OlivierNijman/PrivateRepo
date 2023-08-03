@@ -3,3 +3,4 @@ dbt test - test the builded models
 dbt build - run and test models
 dbt docs generate - builds up the document side
 dbt run --full-refresh - runs and refreshes the schema
+dbt build - runs, tests, and generates docs i think
