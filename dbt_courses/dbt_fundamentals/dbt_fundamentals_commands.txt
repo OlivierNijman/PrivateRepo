@@ -1,9 +1,14 @@
-everything can be modified for singular models/all models
-and for the complete lineage or only previous with +
-
 dbt run - builds up the dataset from left to right
 dbt test - test the builded models
 dbt build - run and test models
 dbt docs generate - builds up the document side
 dbt run --full-refresh - runs and refreshes the schema
-dbt build - runs, tests, and generates docs i think
+dbt build - runs and tests model
+dbt source freshness - checks the freshness of the sources in the yml files
+
+everything can be modified for singular models/all models
+and for the complete lineage or only previous with + 
+for example:
+dbt run --select +name+ 
+dbt test --select source:jaffle_shop
+dbt test --select test_type:generic

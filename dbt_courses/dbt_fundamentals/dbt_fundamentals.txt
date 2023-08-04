@@ -42,3 +42,61 @@ https://docs.getdbt.com/quickstarts/snowflake?step=1
 ^ has info on how to set up dbt cloud and snowflake connection
 dbt models/tests/sources/schema (.yml and sql files) and snowflake warehouses/database/schema
 also for setting op developer and deployment jobs etc. 
+__ gives you all keyboard shortcuts, __ref will give you the full ref format line
+from {{ ref('stg_name') }}
+
+# Models 
+source tables -> intermediate tables/views -> final tables (in dbt this is just sql script in models folder)
+each model has a 1to1 relationship with a table/view in data warehouse (most of the time)
+
+CTE: common table expression: 
+WITH expression_name [ ( column_name [,...n] ) ] AS ( CTE_query_definition )
+Select * from expression_name
+
+modularity: use building blocks (staging models) to build final models (creating lineage)
+put cte inside stg_name.sql file and ref them in the end model
+
+## quick history of data modelling
+trad modeling: star schema, kimball, data vault. optimized for reducing data redundancy
+denormalized modelling: agile analytics, ad hoc analytics
+
+## naming conventions
+sources (src) - rad data that is loaded in
+staging (stg) - clean and standardize the data, 1to1 with source table
+intermediate (int) - between staging and final models, always build on staging models
+fact (fct) - thing that are occurring or have occurred, events/clicks/votes
+dimension (dim) - things that exist, people/place/thing (wil not change much) 
+
+Keep everything tidy by using folders -> models into marts/staging into core or source name folders
+
+# Sources 
+if location or naming of raw tables change you need to update all teh files OR use source yaml file
+source function: {{ source('name', 'table') }}
+and only have to update the yml file and it shows up in your lineage
+you can check the freshness of sources as well, need loaded_at field and give warnings or errors
+
+# Tests 
+run tests in dev while you code, to get what you want
+schedule tests in prod with alerts to get to the problem before people go to you
+testing mindset is crucial, but difficult to scale if you do it manually
+
+singular tests are very specific test for logic in that model
+generic tests are just couple lines of yml code, unique/not_null/accepted_values/relationships
+additional testing can be imported through packages or write your own custom generic tests
+
+write custom tests in tests folder in a sql file, the file should return the objects you do not want to have
+if you want non negative entries, make it select all the negative values in the test
+
+dbt build command combines dbt run and test sort of
+it runs and tests in DAG order at the same time run test run test run test per model
+
+# Documentation 
+documentation can be added in the yaml files alongside the tests etc. corresponding to the models 
+doc blocks are separate documentation in a markdown file
+run the dbt command to generate documentation and you can find it by clicking on view docs
+The generated documentation includes the following:
+Lineage Graph
+Model, source, and column descriptions
+Generic tests added to a column
+The underlying SQL code for each model etc.
+
