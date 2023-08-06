@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: This model gives clean version of customer data, one unique customer per row
+    columns:
+      - name: customer_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: First name of customer
+      - name: last_name
+        description: Last name of customer
+  
+  - name: stg_orders
+    description: This model gives clean version of order data, one order per row
+    columns:
+      - name: order_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: '{{ doc("order_status") }}'
+        tests:
+          - accepted_values:
+              values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
+      - name: customer_id
+        description: Customer id to link with customers
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: order_date
+        description: Date the order was placed

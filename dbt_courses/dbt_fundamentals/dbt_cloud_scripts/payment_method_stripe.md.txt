@@ -1,0 +1,16 @@
+{% docs payment_method %}
+
+One of the following values: 
+
+| method         | definition                                       |
+|----------------|--------------------------------------------------|
+| credit_card    | using card                    |
+| coupon         | using coupon   |
+| bank_transfer  | transfering directly from bank             |
+| gift_card      | Customer used a gift card |
+
+
+{% enddocs %}
+
+
+

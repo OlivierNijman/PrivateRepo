@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_payments
+    description: This model gives clean version of payment data (attempts at paying for orders)
+    columns:
+      - name: payment_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: key of the order the payment is connected to
+        tests:
+          - not_null
+      - name: payment_method
+        description: "{{ doc('payment_method') }}"
+      - name: status
+        description: status of the payment       
+      - name: amount
+        description: monetary value of the payment attempt

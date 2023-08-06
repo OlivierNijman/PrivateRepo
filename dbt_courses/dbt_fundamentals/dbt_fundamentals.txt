@@ -100,3 +100,7 @@ Model, source, and column descriptions
 Generic tests added to a column
 The underlying SQL code for each model etc.
 
+# Deployment 
+running a set of dbt commands on a schedule
+dedicated production branch (master/main), dedicated production schema (e.g. dbt_prod) 
++ run any dbt command on schedule

@@ -61,8 +61,16 @@ file_format = (
 
 
  -- check if data is there    
-select * from raw.jaffle_shop.customers;
-select * from raw.jaffle_shop.orders;
-select * from raw.stripe.payment;   
+SELECT * FROM raw.jaffle_shop.customers;
+SELECT * FROM raw.jaffle_shop.orders;
+SELECT * FROM raw.stripe.payment;   
 
-select * from analytics.dbt_onijman.customers
+SELECT * FROM analytics.dbt_onijman.dim_customers;
+
+SELECT * FROM raw.stripe.payment;
+
+SELECT * FROM analytics.dbt_onijman.fct_orders;
+
+
+SELECT DISTINCT paymentmethod from RAW.STRIPE.PAYMENT;
+

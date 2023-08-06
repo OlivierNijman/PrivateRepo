@@ -1,0 +1,30 @@
+with payments_success as (
+
+    select *  from {{ ref('stg_payments') }}
+    where status = 'success'
+
+), 
+
+orders as (
+
+    select *  from {{ ref('stg_orders') }}
+
+), 
+
+orders_amount as (
+
+    select
+        orders.order_id, 
+        orders.customer_id, 
+
+        coalesce(sum(payments_success.amount), 0) as amount
+
+    from orders
+
+    left join payments_success using(order_id)
+
+    group by 1,2
+
+)
+
+select * from orders_amount
