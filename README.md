@@ -1,2 +1,2 @@
 # PrivateRepo
-Practice Repository for with some helpful files
+Practice Repository with some helpful files
