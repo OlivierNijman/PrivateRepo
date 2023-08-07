@@ -1,0 +1,3 @@
+dbt compile - compile all files (in target)
+dbt seed - build the csv files in seed
+dbt test --models employees - for seed testing

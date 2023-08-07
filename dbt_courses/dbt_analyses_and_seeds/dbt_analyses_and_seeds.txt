@@ -1,0 +1,16 @@
+# Analyses
+sql files in the analyses folder (they are not models or tests)
+support Jinja
+can be compiled with dbt compile
+
+Used for: 
+One off queries, training queries, store queries as needed
+auditing/refactoring 
+
+
+# Seeds 
+csv files in the data folder, build a table from data in csv files. 
+build these tables with dbt seed (can be references with __ref) (add them to a schema.yml)
+(country codes, employee id/emails)
+seeds are not designed for for large or frequently changing data
+
