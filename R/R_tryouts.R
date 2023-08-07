@@ -5,7 +5,9 @@ library(dplyr)
 library(readr)
 
 # set working directory
-setwd("F:/Vsc_Git_tryout/R")
+#setwd("F:/Vsc_Git_tryout/R")
+
+print("hello D&A team ;)")
 
 # simple function to check theme colours
 sum_2_vars <- function(x, y) {
