@@ -68,8 +68,8 @@ final as (
         c.last_name, 
         co.first_order_date,
         co.most_recent_order_date,
-        coalesce(co.number_of_orders, 0) as number_of_orders,
-        coalesce(cp.customer_amount_payed, 0) as lifetime_value
+        {{ coalesce_zero('co.number_of_orders') }} as number_of_orders,
+        {{ coalesce_zero('cp.customer_amount_payed') }} as lifetime_value
     
     from customers c
 

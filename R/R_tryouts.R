@@ -5,7 +5,7 @@ library(dplyr)
 library(readr)
 
 # set working directory
-#setwd("F:/Vsc_Git_tryout/R")
+#setwd("F:/Vsc_Git_tryout/R") # nolint
 
 print("hello D&A team ;)")
 

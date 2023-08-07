@@ -1,3 +1,5 @@
+# dbt commands:
+
 dbt run - builds up the dataset from left to right
 dbt test - test the builded models
 dbt build - run and test models
@@ -12,3 +14,26 @@ for example:
 dbt run --select +name+ 
 dbt test --select source:jaffle_shop
 dbt test --select test_type:generic
+
+
+# jinja
+
+reference model for lineage:
+{{ ref('model_name') }}
+-----------------------------------------
+source model for lineage:
+{{ source('source_name', 'object_name') }}
+-----------------------------------------
+for loop:
+{% for item in sequence %}
+    
+{% endfor %}
+-----------------------------------------
+in docs md file:
+{% docs name %}
+    
+{% enddocs %}
+
+description: '{{ doc("docs name") }}'
+-----------------------------------------
+

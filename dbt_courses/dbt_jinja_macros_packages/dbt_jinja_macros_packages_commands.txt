@@ -1,0 +1,37 @@
+# dbt commands
+
+# jinja 
+
+{%  %}   {%  %} - operation is happening inside jinja context
+{{  }} - pulling something out of jinja context, printing into file in order to produce written material
+{#  #} - comment out in jinja
+{%-  -%} - use the minus signs so the jinja doesn't generate whitespace for that line
+
+for loop:
+{% for item in sequence %}
+    
+{% endfor %}
+-----------------------------------------
+if statement:
+{% if expr %}
+
+{% else %}
+
+{% endif %}
+-----------------------------------------
+define variable and display (in compiler):
+{% set var=value %}
+{{ var }}
+
+define list and display (in compiler):
+{% set my_list = ['bear', 'dog', 'cat'] %}
+{{ my_list[0] }}
+
+define dictionary and display
+{% set websters_dict = {'word' : 'data','speech_part' : 'noun', 'definition' : 'if you know you know'} %}
+{{ websters_dict['word'] }}
+-----------------------------------------
+macro (jinja function):
+{% macro name(args) %}
+    
+{% endmacro %}

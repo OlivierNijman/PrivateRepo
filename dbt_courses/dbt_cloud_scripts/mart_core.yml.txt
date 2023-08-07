@@ -34,3 +34,12 @@ models:
           - not_null
       - name: amount
         description: Total sum of the payments for the order
+
+  - name: int_orders__pivoted
+    description: pivoted order table on payment method
+    columns:
+      - name: order_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null

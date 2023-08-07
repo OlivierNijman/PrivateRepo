@@ -1,0 +1,64 @@
+# Jinja 
+python based templating language, brings functional aspects to sql
+enables better collaboration / writing sql faster with less lines / sets foundation for macros
+
+can use it like python (set variables/lists/dictionaries etc.) -> 0 indexing!
+jinja live parser: http://jinja.quantprogramming.com/
+jinja template designer documentation: https://jinja.palletsprojects.com/en/3.1.x/templates/
+
+2 basic forms of jinja syntax
+{%  %}   {%  %} - operation is happening inside jinja context
+{{  }} - pulling something out of jinja context, printing into file in order to produce written material
+{#  #} - comment out in jinja
+{%-  -%} - use the minus signs so the jinja doesn't generate whitespace for that line
+examples:
+
+{% for i in range(10) %}
+    select {{ i }} as number {% if not loop.last %} union all {% endif %}
+{% endfor %}
+
+
+{%- set foods = ['carrot', 'hotdog', 'cucumber', 'bell_pepper'] -%}
+
+{%- for food in foods -%}
+    {%- if food == 'hotdog' -%}
+        {%- set food_type = 'snack' -%}
+    {%- else -%}
+        {%- set food_type = 'vegetable' -%}
+    {%- endif -%}
+    
+    the humble {{ food }} is my favorite {{ food_type }}
+
+{% endfor %}
+
+A few helpful features of Jinja include dictionaries, lists, if/else statements, for loops, and macros.
+- Dictionaries are data structures composed of key-value pairs
+- Lists are data structures that are ordered and indexed by integers
+- If/else statements are control statements to provide instructions based on clear criteria
+- For loops make it possible to repeat a code block while passing different values for each iteration
+- Macros = writing functions in Jinja. This allows us to write a set of statements once and then reference those statements throughout your code base
+
+
+
+# Macros
+write generic logic one, re-use that logic throughout your project, increase development speed
+we can use the macros that others wrote in our own workflow
+packages allow you to import macros other developers wrote into your own project
+important to consider readability, is using a macro necessary? 
+DRY code (don't repeat yourself) vs. readable code
+
+can use macros to limit data loaded in dev
+{% if target.name = 'dev' %}
+    where collector_tstamp >= dateadd('day', -3, current_timestamp)
+{% endif %}
+to 
+{% macro limit_data_in_dev(column_name, cutoff = -3) %}
+    {% if target.name == 'dev' %}
+        where {{ column_name }} >= dateadd('day', {{ cutoff }}, current_timestamp)
+    {% endif %}
+{% endmacro %}
+
+
+
+
+# Packages 
