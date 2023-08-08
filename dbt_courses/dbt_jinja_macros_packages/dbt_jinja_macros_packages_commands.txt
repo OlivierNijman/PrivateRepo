@@ -1,5 +1,6 @@
 # dbt commands
-
+dbt deps - install package and dependencies 
+dbt run-operation <macro> - run a specific macro
 # jinja 
 
 {%  %}   {%  %} - operation is happening inside jinja context
@@ -35,3 +36,90 @@ macro (jinja function):
 {% macro name(args) %}
     
 {% endmacro %}
+-----------------------------------------
+generate surrogate key with dbt utils:
+{{ dbt_utils.generate_surrogate_key(['field_a', 'field_b'[,...]]) }}
+-----------------------------------------
+generate date spine , includes start_date but not end_date
+{{ dbt_utils.date_spine(
+    datepart="day",
+    start_date="cast('2019-01-01' as date)",
+    end_date="cast('2020-01-01' as date)"
+   )
+}}
+-----------------------------------------
+example of bigger macro for generating sql query for a model:
+{% macro template_example() %}
+    
+    {% set query %}
+        select true as bool
+    {% endset %}
+
+    {% if execute %}
+        {% set results = run_query(query).columns[0].values()[0] %}
+        {{ log('sql results ' ~ results, info=True) }}
+
+        select 
+            {{ results }} as is_real
+        from a_real_table
+
+    {% endif %}
+
+{% endmacro %}
+-----------------------------------------
+grand select privileges to roles and schemas:
+{% macro grant_select(schema = target.schema, role = target.role) %}
+    
+    {% set query %}
+        grant usage on schema {{ schema }} to role {{ role }};
+        grant select on all tables in schema {{ schema }} to role {{ role }};
+        grant usage on all views in schema {{ schema }} to role {{ role }};
+    {% endset %}
+
+    {{ log('granting select on all tables and views in schema ' ~ schema ~ ' to role ' ~ role , info=True) }}
+
+    {% do run_query(query) %}
+
+    {{ log('privileges granted', info=True) }}
+    
+{% endmacro %}
+-----------------------------------------
+clean stale models
+{#  
+    -- let's develop a macro that 
+    1. queries the information schema of a database
+    2. finds objects that are > 1 week old (no longer maintained)
+    3. generates automated drop statements
+    4. has the ability to execute those drop statements
+
+#}
+
+{% macro clean_stale_models(database=target.database, schema=target.schema, days=7, dry_run=True) %}
+    
+    {% set get_drop_commands_query %}
+        select
+            case 
+                when table_type = 'VIEW'
+                    then table_type
+                else 
+                    'TABLE'
+            end as drop_type, 
+            'DROP ' || drop_type || ' {{ database | upper }}.' || table_schema || '.' || table_name || ';'
+        from {{ database }}.information_schema.tables 
+        where table_schema = upper('{{ schema }}')
+        and last_altered <= current_date - {{ days }} 
+    {% endset %}
+
+    {{ log('\nGenerating cleanup queries...\n', info=True) }}
+    {% set drop_queries = run_query(get_drop_commands_query).columns[1].values() %}
+
+    {% for query in drop_queries %}
+        {% if dry_run %}
+            {{ log(query, info=True) }}
+        {% else %}
+            {{ log('Dropping object with command: ' ~ query, info=True) }}
+            {% do run_query(query) %} 
+        {% endif %}       
+    {% endfor %}
+    
+{% endmacro %} 

@@ -59,3 +59,18 @@ to
 
 
 # Packages 
+import models and macros into your dbt project, leverage modeling of common sources / macros across dbt project
+dbt utils - lot of individual macros (date_spine())
+find packages at http://hub.getdbt.com
+put packages in packages.yml file, reference via hub.getdbt or
+- git: <github link>  ,  revision: <branch>     or      - local: <path relative from dbt project>
+
+access macro via <package>.<macro>()
+good macros include
+dbt_utils.surrogate_key for key generation or dbt_utils.date_spine for  
+packages can also include models
+
+# Advanced Jinja + Macros 
+Macros can take more advanced forms for example to grant privileges to roles
+or use the results of a query to build out sql code dynamically e.g. union all tables with a certain prefix
+or clean stale models, automate drop statements for old models
