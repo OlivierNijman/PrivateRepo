@@ -67,12 +67,3 @@ Get a repository on github onto local machine:
 git clone <github repository url>
 
 
-Infinitas git workflow:     what was the wq! again?
-git pull
-git branch issue_123
-git checkout issue_123
-git add .
-git commit (will ask for message when done)
-git pull 
-git push
--> pull request on github

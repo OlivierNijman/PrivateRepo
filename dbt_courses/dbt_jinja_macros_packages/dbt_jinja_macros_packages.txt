@@ -39,7 +39,6 @@ A few helpful features of Jinja include dictionaries, lists, if/else statements,
 - Macros = writing functions in Jinja. This allows us to write a set of statements once and then reference those statements throughout your code base
 
 
-
 # Macros
 write generic logic one, re-use that logic throughout your project, increase development speed
 we can use the macros that others wrote in our own workflow
@@ -57,8 +56,6 @@ to
         where {{ column_name }} >= dateadd('day', {{ cutoff }}, current_timestamp)
     {% endif %}
 {% endmacro %}
-
-
 
 
 # Packages 

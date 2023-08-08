@@ -1,0 +1,11 @@
+# Single-level if-then-else expression
+IFF( <condition> , <expr1> , <expr2> )
+If condition evaluates to TRUE, returns expr1, otherwise returns expr2.
+
+# Safe division
+DIV0( <dividend> , <divisor> )
+Performs division like the division operator (/), but returns 0 when the divisor is 0 (rather than reporting an error).
+
+# replace null value easily
+NVL( <expr1> , <expr2> )
+If expr1 is NULL, returns expr2, otherwise returns expr1.
