@@ -1,0 +1,51 @@
+# Introduction
+1. the refactoring process
+- migrate code into dbt 
+
+- implement sources / translating hard coded table references
+
+- refactoring strategies /choosing refactoring strategy
+    refactor on top (create branch of main and refactor in branch) or 
+    refactor along-side strategy (put a final model in mart and refactor in there, keeping the code in legacy as is until done)
+
+- cosmetic cleanups, CTE groupings
+    Add whitespacing, No lines over 80 characters, Lowercased/Uppercased keywords
+    with statement -> import CTEs -> logical CTEs -> final CTE -> simple select statement
+        make sure you keep the order of the CTEs correct with the joins that are going to be performed
+
+- Centralizing logic, Dividing into models (stg, int, final) (CTE vs separate model?)
+    Centralizing transformations and splitting up models 
+    removing redundant transformations and moving 1:1 transformations to the earliest CTEs that can handle them.
+
+    Move 1:1 transformations to CTEs
+    1. Ignoring the import CTEs, identify where the staging CTEs are. These CTEs don't conduct any joins.
+    
+    2. Identify where the mart CTEs are. These CTEs conduct joins.
+    
+    3. Remove any redundant CTEs that conduct the same transformations on the same data sets. 
+        Replace all references to any removed CTEs with the proper references.
+    
+    4. for mart CTEs, look at each field and identify the transformations that answer Yes to both of these questions:
+        Can this transformation be done using one data set?
+        Is this transformation done on a field whose value is not due to a join?
+
+        Move these transformations to the appropriate CTE under the staging section of code. 
+        Ensure that when you move these, you are:
+            Removing redundant transformations
+            Re-referencing the CTE and field names correctly
+            Giving good names to fields that don't have a good name established
+
+    5. If there was no subquery/ that operated only on a certain table. 
+        Create a new CTE under the staging area that selects from that CTE, 
+        and continue moving transformations that belong to that certain table data following the rules in step 4.
+
+    Move transformations to staging models.
+    Once you're done with the above, It's time to split out the code under staging area and create models.
+    ensure you've moved all of your staging CTEs into staging models and remove the code.
+    Change your import CTEs to use the {{ ref() }} function to refer to your new staging models instead of the source. 
+    Ensure everything is referenced correctly in subsequent CTEs.
+    run dbt run -m +<refactored legacy model> to ensure your models build successfully.
+
+
+- auditing
+

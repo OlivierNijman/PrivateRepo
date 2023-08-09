@@ -70,6 +70,7 @@ good macros include
 dbt_utils.surrogate_key for key generation or dbt_utils.date_spine for  
 packages can also include models
 
+
 # Advanced Jinja + Macros 
 Macros can take more advanced forms for example to grant privileges to roles
 or use the results of a query to build out sql code dynamically e.g. union all tables with a certain prefix

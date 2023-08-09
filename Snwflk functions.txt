@@ -1,15 +1,51 @@
 # Single-level if-then-else expression
 IFF( <condition> , <expr1> , <expr2> )
+
 If condition evaluates to TRUE, returns expr1, otherwise returns expr2.
+
 
 # Safe division
 DIV0( <dividend> , <divisor> )
+
 Performs division like the division operator (/), but returns 0 when the divisor is 0 (rather than reporting an error).
+
 
 # replace null value easily
 NVL( <expr1> , <expr2> )
+
 If expr1 is NULL, returns expr2, otherwise returns expr1.
+
 
 # use COALESCE instead of NVL, similar use cases
 COALESCE( <expr1> , <expr2> [ , ... , <exprN> ] )
+
 Returns the first non-NULL expression among its arguments, or NULL if all its arguments are NULL.
+
+
+# window function
+Window Syntax
+<function> ( [ <arguments> ] ) OVER ( [ PARTITION BY <expr1> ] [ ORDER BY <expr2> ] )
+
+The OVER clause specifies that the function is being used as a window function.
+The PARTITION BY sub-clause allows rows to be grouped into sub-groups, for example by city, by year, etc.
+The PARTITION BY clause is optional. You can analyze an entire group of rows without breaking it into sub-groups.
+The ORDER BY clause orders rows within the window.
+Although the ORDER BY clause is optional for some window functions, it is required for others. 
+    For example, window frame functions and rank-related functions require that the data be in a meaningful order, 
+    and therefore require an ORDER BY sub-clause.
+
+Window Frame Syntax
+<function> ( <arguments> ) OVER ( [ PARTITION BY <expr1> ] ORDER BY <expr2> [ cumulativeFrame | slidingFrame ] )
+where
+cumulativeFrame ::=
+    {
+       { ROWS | RANGE } BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+     | { ROWS | RANGE } BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+    }
+
+slidingFrame ::=
+    {
+       ROWS BETWEEN <N> { PRECEDING | FOLLOWING } AND <N> { PRECEDING | FOLLOWING }
+     | ROWS BETWEEN UNBOUNDED PRECEDING AND <N> { PRECEDING | FOLLOWING }
+     | ROWS BETWEEN <N> { PRECEDING | FOLLOWING } AND UNBOUNDED FOLLOWING
+    }

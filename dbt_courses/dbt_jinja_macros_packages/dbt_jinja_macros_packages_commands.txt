@@ -1,6 +1,9 @@
 # dbt commands
 dbt deps - install package and dependencies 
 dbt run-operation <macro> - run a specific macro
+
+
+
 # jinja 
 
 {%  %}   {%  %} - operation is happening inside jinja context
