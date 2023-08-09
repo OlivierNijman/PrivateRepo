@@ -9,3 +9,7 @@ Performs division like the division operator (/), but returns 0 when the divisor
 # replace null value easily
 NVL( <expr1> , <expr2> )
 If expr1 is NULL, returns expr2, otherwise returns expr1.
+
+# use COALESCE instead of NVL, similar use cases
+COALESCE( <expr1> , <expr2> [ , ... , <exprN> ] )
+Returns the first non-NULL expression among its arguments, or NULL if all its arguments are NULL.
