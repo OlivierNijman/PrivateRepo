@@ -1,3 +1,5 @@
+Can click on query id to see the performance.
+
 # Single-level if-then-else expression
 IFF( <condition> , <expr1> , <expr2> )
 
