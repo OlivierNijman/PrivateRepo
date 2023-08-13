@@ -19,6 +19,7 @@
 
     Move 1:1 transformations to CTEs
     1. Ignoring the import CTEs, identify where the staging CTEs are. These CTEs don't conduct any joins.
+        Transforms just the source, create building blocks. Joins indicate trying to achieve a different concepts. 
     
     2. Identify where the mart CTEs are. These CTEs conduct joins.
     

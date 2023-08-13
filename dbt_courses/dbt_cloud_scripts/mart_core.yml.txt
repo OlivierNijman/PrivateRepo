@@ -43,3 +43,7 @@ models:
         tests:
           - unique
           - not_null
+  
+  - name: fct_customer_orders
+    description: refactored legacy code for customer orders
+        
