@@ -13,6 +13,8 @@ models:
         description: First name of customer
       - name: last_name
         description: Last name of customer
+      - name: full_name
+        description: combination of first and last name of customer
   
   - name: stg_orders
     description: This model gives clean version of order data, one order per row

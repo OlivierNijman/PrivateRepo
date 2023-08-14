@@ -1,0 +1,110 @@
+with orders as (
+
+    select 
+        order_id,
+        customer_id,
+        order_date as order_placed_at,
+        status as order_status
+
+    from {{ ref('stg_orders') }}
+
+),
+
+customers as (
+
+    select
+        customer_id,
+        first_name as customer_first_name,
+        last_name as customer_last_name
+
+    from {{ ref('stg_customers') }}
+
+),
+
+completed_payments as (
+
+    select 
+    
+        order_id, 
+        max(created_at) as payment_finalized_date, 
+        sum(amount) as total_amount_paid
+    
+    from {{ ref('stg_payments') }}
+    
+    where status != 'fail'
+
+    group by 1
+
+),
+
+customer_orders as (
+    
+    select 
+    
+        orders.customer_id, 
+        min(orders.order_placed_at) as first_order_date, 
+        max(orders.order_placed_at) as most_recent_order_date, 
+        count(orders.order_id) as number_of_orders
+
+    from orders
+
+    group by 1
+
+),
+
+paid_orders as (
+    
+    select 
+
+        orders.order_id,
+        orders.customer_id,
+        orders.order_placed_at,
+        orders.order_status,
+        completed_payments.total_amount_paid,
+        completed_payments.payment_finalized_date,
+        customers.customer_first_name,
+        customers.customer_last_name
+
+    from orders
+
+    left join completed_payments
+        on orders.order_id = completed_payments.order_id
+
+    left join customers
+        on orders.customer_id = customers.customer_id 
+    
+),
+
+final as (
+
+    select 
+
+        paid_orders.*,
+
+        row_number() over 
+            (order by paid_orders.order_id) as transaction_seq,
+
+        row_number() over 
+            (partition by paid_orders.customer_id order by paid_orders.order_id) as customer_sales_seq,
+
+        case when customer_orders.first_order_date = paid_orders.order_placed_at
+            then 'new'
+            else 'return' end as nvsr,
+
+        sum(total_amount_paid) over 
+            (partition by paid_orders.customer_id
+            order by paid_orders.order_placed_at
+            ) as customer__lifetime_value,
+
+        customer_orders.first_order_date as fdos
+        
+    from paid_orders
+
+    left join customer_orders 
+        on paid_orders.customer_id = customer_orders.customer_id
+
+    order by order_id
+
+)
+
+select * from final

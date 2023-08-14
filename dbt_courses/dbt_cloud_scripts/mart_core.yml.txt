@@ -46,4 +46,7 @@ models:
   
   - name: fct_customer_orders
     description: refactored legacy code for customer orders
+
+  - name: fct_customer_orders_V2
+    description: refactored legacy code for customer orders
         

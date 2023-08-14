@@ -17,6 +17,13 @@ NVL( <expr1> , <expr2> )
 
 If expr1 is NULL, returns expr2, otherwise returns expr1.
 
+# if else for null values
+NVL2( <expr1> , <expr2> , <expr3> )
+
+Returns values depending on whether the first input is NULL:
+If expr1 is NOT NULL, then NVL2 returns expr2.
+If expr1 is NULL, then NVL2 returns expr3.
+
 
 # use COALESCE instead of NVL, similar use cases
 COALESCE( <expr1> , <expr2> [ , ... , <exprN> ] )

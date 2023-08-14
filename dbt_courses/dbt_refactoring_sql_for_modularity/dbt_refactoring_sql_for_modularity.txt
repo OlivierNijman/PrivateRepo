@@ -47,6 +47,12 @@
     Ensure everything is referenced correctly in subsequent CTEs.
     run dbt run -m +<refactored legacy model> to ensure your models build successfully.
 
+    CTE or intermediate model
+    when Code gets too long (not readable anymore) intermediate models might be necessary. 
+    intermediate models can have joins etc. 
 
 - auditing
+    you can audit by running a query with old model as ... , new model as ... and lookign for differences. 
+    audit helper is a handy package as well. can compare relations, values etc. 
+    make sure that any changes from legacy to new model are welcome and/or expected. 
 

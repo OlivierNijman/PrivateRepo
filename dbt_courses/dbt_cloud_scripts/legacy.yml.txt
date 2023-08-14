@@ -4,3 +4,5 @@ models:
   - name: customer_orders
     description: old legacy code for customer orders, refactored
     
+  - name: customer_order_V2
+    description: old legacy code for customer orders, refactored 
