@@ -1,0 +1,91 @@
+# materializations
+
+what are materializations?
+how dbt builds you models.
+
+tables views and ephemeral models
+
+tables: an actual table will be build, the records are stored
+views: the query will be stored, not the data
+ephemeral: does not exist in database. its a reusable code snippet. 
+    interpolated as CTE in a models that refs the ephemeral model.
+incremental: importing only new records into the table once it has been initially build. 
+snapshots: look at underlying data and based on your criteria looks at records that have changed. 
+    imports changes as a new row. this way you the record before the change is never lost.
+
+configure materialization in dbt_project.yml or in config block at top of model
+
+
+
+different materializations affect build times, build time order:
+tables > views > ephemeral (not actually being build)
+
+if a ephemeral table was previously a view or table, dbt will not drop the table/view
+
+tables write data on disc -> query very quickly from it, but costs more (disc space)
+view -> query bit slower since it has to run the model every time, but costs less
+ephemeral -> can not query from it
+
+
+
+what if new data is introduced?
+table would rebuild the whole thing, view would recalculate when queried, ephemeral puts it on the model downstream.
+incremental adds only the new record!
+
+incremental keeps old table, adds new record. (save time and money if possible)
+less wasteful and probably faster, but need to define what is "new" and "add"
+
+use case would be event data for example. most likely historic data is not going to change. 
+
+tactic, how do we want to materialize model? 
+start with view 
+query times too long -> table
+build time too long -> incremental (where possible)
+
+building incremental:
+in config block materialized: 'incremental'
+put a filter on source data that filters only for data that is generated after a max(last_updated_by)
+is_incremental() checks for 1. model existence in database, 2. as a table, 
+                            3. configured with incremental materialization, 4. if there was a --full-refresh run
+
+what if data shows up late in data warehouse, might miss it due to the cutoff. 
+can make the cutoff more lenient. but then duplicates
+need unique key so we can skip duplicate records, put this in unique_key in config block.
+might still miss data. so figure out tolerance for correctness and once a week perform a --full-refresh perhaps. 
+
+still might be under counting page view durations due to cutoff
+window function will break however, can fix by always looking at all previous records pertaining to the window function (slower)
+perform calculations relatively to new records. can be hard.
+
+good candidates for incremental models: 
+immutable event streams, tall + skinny table, append-only, no updates
+if there are updates: a reliable updated_at field
+
+
+snapshots
+lot in common with incremental models. 
+changing are captured in new records, adding an updated_at/valid_from/valid_to
+recording timestamps for periods of validity. 
+want to preserve in seperate schema probably. need unique_key, strategy and updated_at
+docs for snapshot: 
+
+snapshots/orders_snapshot.sql
+
+{% snapshot orders_snapshot %}
+
+{{
+    config(
+      target_database='analytics',
+      target_schema='snapshots',
+      unique_key='id',
+
+      strategy='timestamp',
+      updated_at='updated_at',
+    )
+}}
+
+select * from {{ source('jaffle_shop', 'orders') }}
+
+{% endsnapshot %}
+
+different strategies:  timestamp, check (checking for columns)

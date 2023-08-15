@@ -1,0 +1,36 @@
+# dbt commands
+dbt ... --full-refresh - makes it so all models are fully rebuild (even incremental)
+
+
+
+# jinja 
+incremental model source filter example:
+
+with events as (
+select * from {{ source(...) }}
+    {% if is_incremental() %}
+    where collector_tstamp >= (select max(max_collector_timestamp) from {{ this }})
+    {% endif %}
+)
+
+
+
+snapshots: 
+snapshots/orders_snapshot.sql
+
+{% snapshot orders_snapshot %}
+
+{{
+    config(
+      target_database='analytics',
+      target_schema='snapshots',
+      unique_key='id',
+
+      strategy='timestamp',
+      updated_at='updated_at',
+    )
+}}
+
+select * from {{ source('jaffle_shop', 'orders') }}
+
+{% endsnapshot %}
