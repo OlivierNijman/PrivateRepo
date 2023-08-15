@@ -21,7 +21,7 @@
     1. Ignoring the import CTEs, identify where the staging CTEs are. These CTEs don't conduct any joins.
         Transforms just the source, create building blocks. Joins indicate trying to achieve a different concepts. 
     
-    2. Identify where the mart CTEs are. These CTEs conduct joins.
+    2. Identify where the mart CTEs are. These CTEs among other things probably conduct joins.
     
     3. Remove any redundant CTEs that conduct the same transformations on the same data sets. 
         Replace all references to any removed CTEs with the proper references.
