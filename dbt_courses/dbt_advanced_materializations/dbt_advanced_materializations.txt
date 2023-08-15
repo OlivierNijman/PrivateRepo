@@ -66,7 +66,7 @@ snapshots
 lot in common with incremental models. 
 changing are captured in new records, adding an updated_at/valid_from/valid_to
 recording timestamps for periods of validity. 
-want to preserve in seperate schema probably. need unique_key, strategy and updated_at
+want to preserve in separate schema probably. need unique_key, strategy and updated_at
 docs for snapshot: 
 
 snapshots/orders_snapshot.sql
