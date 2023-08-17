@@ -59,3 +59,19 @@ slidingFrame ::=
      | ROWS BETWEEN UNBOUNDED PRECEDING AND <N> { PRECEDING | FOLLOWING }
      | ROWS BETWEEN <N> { PRECEDING | FOLLOWING } AND UNBOUNDED FOLLOWING
     }
+
+
+
+# Qualify 
+QUALIFY <predicate>
+
+SELECT <column_list>
+FROM <data_source>
+[GROUP BY ...]
+[HAVING ...]
+QUALIFY <predicate>
+[ ... ]
+
+In a SELECT statement, the QUALIFY clause filters the results of window functions.
+QUALIFY does with window functions what HAVING does with aggregate functions and GROUP BY clauses.
+
