@@ -104,5 +104,3 @@ The underlying SQL code for each model etc.
 running a set of dbt commands on a schedule
 dedicated production branch (master/main), dedicated production schema (e.g. dbt_prod) 
 + run any dbt command on schedule
-
-test change
