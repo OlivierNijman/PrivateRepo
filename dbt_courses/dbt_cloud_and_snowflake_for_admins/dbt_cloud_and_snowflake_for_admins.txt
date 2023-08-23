@@ -1,0 +1,47 @@
+# setting up snowflake for dbt cloud
+
+need role accountadmin.
+where will raw data be loaded (raw_landing).
+where will transformed data be loaded (analytics).
+create database analytics;
+
+recommended to have a dedicated warehouse for transforming.
+create warehouse transforming with warehouse_size = 'MEDIUM';
+
+create a rol for transforming data.
+create rol transformer;
+
+need to be able to read but not modify data in snowflake raw data.
+grant IMPORTED PRIVILIGES on database raw_landing to role transformer;
+grant usage on schema raw_landing.<name> to role transformer;
+grant select on all tables in schema ^ to role transformer;
+
+along with a bunch of other grant statements.
+Example Snowflake permissions and other resources are available at the dbt Developer Hub.
+
+can also set up a service user account
+
+configure github for dbt cloud
+create new org repo in github (org/dbt-project) for example
+
+in dbt, the site will guide you through all the steps to connect to github and snowflake. 
+check in the end if everything is integrated properly by putting in some dbt run/build commands 
+
+# setting up environments, jobs and folders
+Usefull to have a production environment next to dev.
+should be set up to a service user account, not personal.
+
+deploy -> environments
+development will be there already, create a production 
+deployment connection should not be the same for production as for development connection.
+
+then can make jobs, that run you dbt project on a schedule
+
+set up folders by data maturity
+staging folder - simple transformation to clean data (stg)
+mart folder - key business logic (dim/fact)
+
+set up folders by domain
+set up folder for different departments (e.g. finance, marketing, sales)
+
+configure the dbt_project.yml and readme.md file to represent your work.

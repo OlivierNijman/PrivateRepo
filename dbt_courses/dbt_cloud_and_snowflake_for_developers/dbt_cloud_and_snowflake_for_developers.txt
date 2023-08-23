@@ -1,0 +1,15 @@
+# join a project in dbt cloud and snowflake (this is more of a intro course)
+
+login snowflake
+create worksheet, see which roll you are using. 
+need to verify which roll is the right one for dbt developers. 
+
+connect github to dbt cloud
+associate github account with organizations github account.
+Need to be able to see the orgs dbt project repo.
+
+access the project and enter credentials
+connect dbt cloud to github account in profile settings.
+in your project connect snowflake through development credentials with dbt_<name> schema
+
+make sure you can access snowflake by testing connection with a query in dbt cloud. 
