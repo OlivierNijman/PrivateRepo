@@ -1,0 +1,45 @@
+# Intro to webhooks
+
+What are webhooks?
+General framework:
+    something happens in app A
+    app A fires a webhook to send data
+    app B receives the webhook data
+    app B processes the data
+
+application can talk to each other in 2 ways - polling and webhooks
+Polling involves one app asking (pull) another app for something
+Webhooks involves one app telling (push) another app something
+
+outbound/outgoing webhooks - app has the ability to fire a webhook that pushes details to another app
+inbound/incoming webhooks - app has ability to accept data from app that fired the webhook
+
+outbound app needs to be provided an address of the inbound app to send the details of the webhook to
+
+Why use webhooks in dbt cloud?
+resource load - webhooks have less resource load since you don't have to ping another app to ask for info (polling)
+immediacy - webhooks push info immediately as it is collected
+simplicity - you get all info as it is relevant and don't find out something happened a while ago because you did not pull data
+
+examples: 
+    real time notifications about job statuses
+    integrates with workflow  automation tools like Zapier
+    allows for easier dbt orchestration 
+    less polling means reduced compute load
+
+Unlocks simple immediate integrations with other key software tools
+
+events supported: 
+dbt cloud will support outgoing webhooks but not incoming webhooks (may change)
+outgoing webhooks are currently enabled for: 
+    jobs starting 
+    jobs completing (success or failure)
+    jobs erroring
+
+webhooks verifiable through secret thats passed through authentication header and able to be created through an api
+
+configure webhooks through dbt cloud, account settings -> webhooks (on the account admin)
+can create a new webhook there
+endpoint from a third party tool 
+through zapier you can catch raw hook to verify hook came from dbt cloud
+dbt cloud -> zapier -> app
