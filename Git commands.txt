@@ -66,4 +66,10 @@ git pull origin --all
 Get a repository on github onto local machine:
 git clone <github repository url>
 
+Check tracking on branches:
+git branch -vv
 
+Set tracking branch on repo (with push or for existing work):
+git push --set-upstream <remote> <branch>
+git push -u <remote> <branch>
+git branch -u <remote>/<branch>
