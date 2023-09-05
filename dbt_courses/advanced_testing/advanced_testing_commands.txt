@@ -1,0 +1,56 @@
+# dbt commands
+dbt test
+dbt build
+dbt source freshness
+dbt run-operation required_tests - fom the dbt-meta-testing package 
+
+--select <model>                                flag to be specific about model 
+--select <folder.subfolder.*>                   flag for subfolder
+--select test_type:<generic/singular>           flag for test types
+--select <model>, test_type:<generic/singular>  flag for intersection between model and test type 
+--select source:*                               flag sources
+--select source:<schema>.<table>                flag specific source
+
+dbt test --store-failures   stores failed tests
+
+in yml files 
+tests: 
+    - not_null
+    - unique
+    - accepted_values
+    - relationships
+
+    - unique:
+        config: 
+            severity: warn
+            error_if: ">30"
+            warn_if: ">10"
+            where: "order_date > '2018-03-01'"
+            limit: 10
+            store_failures: true
+            schema: test_failures
+
+
+in dbt_project.yml
+models: 
+ ...
+ ...
+ ...
+
+tests:
+    <project_name>:
+        +severity: warn 
+        +store_failures: true
+
+
+# jinja
+{{ config(required_tests=None) }} - overrides check for tests in dbt_project.yml
+{{ config(enabled = false) }} - disables singular test if put at the top of file
+
+For generic test:
+{% test <test_name>(model, column_name) %}
+...
+...
+{% endtest %}
+
+
