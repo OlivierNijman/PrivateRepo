@@ -1,0 +1,51 @@
+# Introduction to advanced deployment
+environments + jobs + run results
+
+environments: dbt version, git branch to pull from, data location (target schema)
+development env: env. setting (v1.3), IDE interface (feat/orders), profile setting (dbt_<name>)
+deployment env: env. setting (v1.3), env. setting (main), env. setting (analytics) 
+
+within deployment env -> jobs
+sequence of dbt commands (dbt run/test/build), scheduled or triggered
+weekly (dbt build --full-refresh) + daily (dbt build) jobs for example 
+
+each job -> results
+see results for sequence of commands
+enable notifications on passing/failing jobs
+
+# Deployment architecture in dbt cloud
+using dbt environments and jobs we can create pipelines that ensure data quality and completeness that deliver data timely
+
+direct promotion - one trunk (work on main branch)
+    create feature branch, make changes, tests locally and open PR to merge in main (may trigger automated testing (CI))
+    continuos deployment
+    run the risk of merging bad code directly in prod
+
+indirect promotion - many trunks (work on qa branch with PR to main)
+    one or many branches in between feature and prod branch to have additional qa
+    features branches undergo the same lifecycle
+    in between branch will get its own deployment environment to make sure nothing goes wrong
+    then after, it merges with prod. ensures features are good
+        only run dev env on qa branch
+
+dbt has docs to explain how to setup both architectures
+
+# job structures
+DAG shows lineage of project, green = source, blue = models/snapshots, orange = exposures
+right click on nodes to view more options 
+can filter resources, packages, tags, --select, --exclude (useful for seeing how a job will look with filters)
+Can also look at DAG to see how many threads would be good to have to running in job. 
+
+dbt build more logical than dbt test/run most often
+
+Job types
+standard: build entire project, leverage incremental logic, typically daily
+full refresh: build entire project, rebuild incr models from scratch, typically weekly
+time sensitive: build a subset of DAG, helpful to refresh models for specific parts of the business
+fresh rebuild: require dbt v1.1+, check if sources is updated, if yes build downstream models
+
+incremental job in morning, specific models throughout the day (unions or intersections)
+job creation help in dbt docs 
+
+# orchestration
+

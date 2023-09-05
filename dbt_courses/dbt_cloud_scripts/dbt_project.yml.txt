@@ -33,7 +33,11 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 models:
   jaffle_shop:
+      # all models should have unique or not null tests
+      #+required_tests: {"unique.*|not_null": 2}
       marts: 
+        # marts should additional always include a relationship test
+        #+required_tests: {"relationship.*": 1}
         +materialized: table
       staging:
         +materialized: view

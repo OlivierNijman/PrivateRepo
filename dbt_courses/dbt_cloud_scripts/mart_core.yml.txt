@@ -34,6 +34,8 @@ models:
           - not_null
       - name: amount
         description: Total sum of the payments for the order
+        # tests:
+        #   - assert_column_is_greater_than_five
 
   - name: int_orders__pivoted
     description: pivoted order table on payment method
