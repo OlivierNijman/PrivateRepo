@@ -48,4 +48,66 @@ incremental job in morning, specific models throughout the day (unions or inters
 job creation help in dbt docs 
 
 # orchestration
+how and when different jobs get triggered to provide data to end users
+1. on a schedule
+2. via webhooks
+3. via the dbt cloud api
 
+information stored about jobs:
+status of run / run logs and debug logs / artifacts
+
+trigger section of jobs in cloud.getdbt.com has options for schedule/webhooks/API
+
+schedule can go at intervals or via cron schedule
+cron: minute hour day(month) month day(week)
+* = any value   , = value list operator     - = range of values     / = step value
+example: */30 6-23 * * 1-5  =  every 30 min between 6am and 11pm from monday to friday
+
+webhooks can make jobs run on pull requests
+
+API can be triggered in script /  CI/CD 
+
+Review past runs in run history on dbt (can filter on job/env/status)
+also on the jobs page (can see the jobs steps + logs)
+
+Run timing, Model timing and artifacts (files generated) tabs in run overview
+
+For triggering jobs from api, can get token from account or create service token
+Can use curl/python/dbt-cloud-ci github package to trigger jobs from api
+
+Coordinating different jobs:
+simple orchestration (e.g. daily incr and full refresh sunday)
+more complex  (e.g. half hourly incr and also refresh during other jobs)
+
+# Continuous Integration (CI/CD)
+set up jobs that trigger on pull request (CI) on a separate pr schema that automatically runs and tests the changed project to ensure it builds
+with Slim CI -> only build the changed parts of the project + downstream models to save compute and storage
+    dbt run -s state:modified+, dbt test -s state:modified+
+        Need to specify which jobs it should refer to to see what changed
+
+More detailed info on how to setup in dbt cloud 
+usually create new env just for CI (can run of custom branch if many trunk approach)
+    run job on webhook (PR), can than see dbt running the job when creating a pull request.
+
+# Custom environment and job behavior
+for example the generate_schema_name() macro
+customize dbt behavior based of the environment
+
+other examples:
+- limiting the number of rows being analyzed
+- using different databases or schemas for the dbt sources
+- changing the severity of a test
+
+in dbt leverage the target jinja var and environment vars
+
+target in any jinja macro/codeblock contains info about the active connection to your warehouse
+target.name / target.schema for example
+target name of jobs can be set in dbt cloud 
+
+You can overwrite the generate_schema_name macro in the macro folder of your dbt project to customize it
+
+environment vars used in software dev to trigger different behaviors based on context in which code is ran
+variable name need to start with DBT_ and its value can be retrieved with 
+{{ env_var('DBT_MY_ENV') }} or {{ env_var('DBT_MY_ENV', '<default_value>') }}
+if a env var is setup at different levels the order of precedence is (check first to check last)
+personal override/job override -> dev env/deploy env -> project default -> jinja function default arg
